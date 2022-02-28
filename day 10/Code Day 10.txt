@@ -1,0 +1,88 @@
+var x = 10;
+x;
+x = x +20;
+x = "anubhav oberoy";
+var obj = { "empid" : 10, "empname": "anubhav" };
+obj.empid;
+obj.empname;
+obj.empname = "ananya";
+obj;
+var fruits = ["apple","banana","cherry"];
+fruits;
+fruits[0];
+fruits.length;
+fruits.length - 1;
+fruits[fruits.length - 1];
+x.split(" ");
+for(var i=0;i<fruits.length;i++){
+  console.log(fruits[i]);
+};
+
+--Ex 1: Change of chart based on change of filter in table
+
+//whenever data changes in the table --> change chart also
+Chart_2.getDataSource().copyDimensionFilterFrom(Table_1.getDataSource(),"City.Country");
+Chart_2.getDataSource().copyDimensionFilterFrom(Table_1.getDataSource(), "City");
+
+--Ex 2: Add dropdown, when user select 
+Revenue - Sales Revenue and Qty Sold and When user 
+select Discount - Discount and Gross Margin
+var ddKey = DD_Type.getSelectedKey();
+Table_1.getDataSource().removeDimensionFilter("Account");
+if(ddKey === "Revenue"){
+	Table_1.getDataSource().setDimensionFilter("Account",["[Account].[parentId].&[Sales_Revenue]","[Account].[parentId].&[Quantity_sold]"]);
+}else{
+	Table_1.getDataSource().setDimensionFilter("Account",["[Account].[parentId].&[Discount]","[Account].[parentId].&[Gross_Margin]"]);
+}
+
+onInitialization paste same code
+var ddKey = DD_Type.getSelectedKey();
+Table_1.getDataSource().removeDimensionFilter("Account");
+if(ddKey === "Revenue"){
+	Table_1.getDataSource().setDimensionFilter("Account",["[Account].[parentId].&[Sales_Revenue]","[Account].[parentId].&[Quantity_sold]"]);
+}else{
+	Table_1.getDataSource().setDimensionFilter("Account",["[Account].[parentId].&[Discount]","[Account].[parentId].&[Gross_Margin]"]);
+}
+
+Ex 3 : Using Variable
+
+var ddKey = DD_Type.getSelectedKey();
+Table_1.getDataSource().removeDimensionFilter("Account");
+if(ddKey === "Revenue"){
+	Chart_2.addMeasure("[Account].[parentId].&[Sales_Revenue]",Feed.ValueAxis);
+	Chart_2.addMeasure("[Account].[parentId].&[Quantity_sold]",Feed.ValueAxis);
+	Table_1.getDataSource().setDimensionFilter("Account",["[Account].[parentId].&[Sales_Revenue]","[Account].[parentId].&[Quantity_sold]"]);
+}else{
+	Chart_2.addMeasure("[Account].[parentId].&[Discount]",Feed.ValueAxis);
+	Chart_2.addMeasure("[Account].[parentId].&[Gross_Margin]",Feed.ValueAxis);
+	Table_1.getDataSource().setDimensionFilter("Account",["[Account].[parentId].&[Discount]","[Account].[parentId].&[Gross_Margin]"]);
+}
+
+if (selType === "Revenue"){
+	Chart_2.removeMeasure("[Account].[parentId].&[Sales_Revenue]",Feed.ValueAxis);
+	Chart_2.removeMeasure("[Account].[parentId].&[Quantity_sold]",Feed.ValueAxis);
+}else{	
+	Chart_2.removeMeasure("[Account].[parentId].&[Discount]",Feed.ValueAxis);
+	Chart_2.removeMeasure("[Account].[parentId].&[Gross_Margin]",Feed.ValueAxis);
+}
+
+selType = ddKey;
+
+
+Debug option - ;debug=true
+
+Ex4 : Change Dimensions using API
+
+var selectedKey = DD_Dim.getSelectedKey();
+if(selectedKey === "Category_LBH"){
+	Table_1.removeDimension("City.Country");
+	Table_1.addDimensionToRows("Category_LBH");
+	Chart_2.addDimension("Category_LBH",Feed.CategoryAxis);
+	Chart_2.removeDimension("City",Feed.CategoryAxis);
+}else{
+	Table_1.addDimensionToRows("City.Country");
+	Table_1.removeDimension("Category_LBH");
+	Chart_2.removeDimension("Category_LBH",Feed.CategoryAxis);
+	Chart_2.addDimension("City",Feed.CategoryAxis);
+}
+

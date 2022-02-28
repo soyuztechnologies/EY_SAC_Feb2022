@@ -1,0 +1,34 @@
+@AbapCatalog.sqlViewName: 'ZDEMO_SALES_SACXX'
+@AbapCatalog.compiler.compareFilter: true
+@AbapCatalog.preserveKey: true
+@AccessControl.authorizationCheck: #CHECK
+@EndUserText.label: 'Sales Data'
+@Analytics.dataExtraction.enabled: true
+@Analytics.dataCategory: #CUBE
+@OData.publish: true
+define view ZSALES_DATA_XX as select from SEPM_I_SalesOrderItem_E {
+    //SEPM_I_SalesOrderItem_E
+    key SalesOrder as OrderId,
+    key SalesOrderItem as ItemId,
+    _SalesOrder._Customer.CompanyName as CustomerName,
+    Product,
+    @Semantics.currencyCode: true
+    TransactionCurrency as Currency,
+    @DefaultAggregation: #SUM
+    @Semantics.amount.currencyCode: 'Currency'
+    GrossAmountInTransacCurrency as GrossAmount,
+    @DefaultAggregation: #SUM
+    @Semantics.amount.currencyCode: 'Currency'
+    NetAmountInTransactionCurrency as NetAmount,
+    @DefaultAggregation: #SUM
+    @Semantics.amount.currencyCode: 'Currency'
+    TaxAmountInTransactionCurrency as TaxAmount,
+    @DefaultAggregation: #SUM
+    @Semantics.amount.currencyCode: 'Currency'
+    currency_conversion( amount => GrossAmountInTransacCurrency,
+     source_currency => TransactionCurrency, 
+     target_currency => cast('EUR' as abap.cuky), 
+     exchange_rate_date => cast('20200726' as abap.dats ))
+      as ConvertedAmount,
+    ProductAvailabilityStatus as Status
+}

@@ -1,0 +1,10 @@
+Service Path : /sap/bw/ina
+Host rule: your origin host name, (more entries comma seperated, or * for all).
+Allowed Methods: Get, POST,OPTIONS,Head
+Allowed Headers: x-csrf-token,x-sap-cid,authorization,mysapsso2,x-request-with,sap-rewriteurl,sap-url-session-id,content-type,accept-language
+Exposed Headers: x-csrf-token,sap-rewriteurl,sap-url-session-id,sap-perf-fesrec,sap-system
+Allow Credentials: has to be active.
+Max Age: 600
+
+https://help.sap.com/viewer/00f68c2e08b941f081002fd3691d86a7/release/en-US/75bbd4e3de074da79dea5dffb19774b3.html
+MOB51	nov@510

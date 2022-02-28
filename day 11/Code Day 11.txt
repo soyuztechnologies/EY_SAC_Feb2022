@@ -1,0 +1,91 @@
+1. Checkbox to hide and show
+var aSelections = CheckGroup.getSelectedKeys();
+
+Table_1.setVisible(false);
+Chart_2.setVisible(false);
+for(var i=0;i<aSelections.length; i++){
+	if(aSelections[i] === "Table_1"){
+		Table_1.setVisible(true);
+	}else if(aSelections[i] === "Chart_2"){
+		Chart_2.setVisible(true);
+	}
+}
+
+2. Display hierarchy as flat or as hierarchy
+2.1 Add a new Dropdown DD3
+2.2 Add a new variable dimensionName
+2.3 in Dropdown 2 enhance with below code
+
+//new code- populate dropdown 3 based on the value of dropdown 2
+//step 1: ask table do you see hierarchy
+var aHier = Table_1.getDataSource().getHierarchies(selectedKey);
+console.log(aHier);
+//step 2: loop over the possibility and populate the 3rd dropdown
+DD3.removeAllItems();
+for(var i=0;i<aHier.length;i++){
+	DD3.addItem(aHier[i].id, aHier[i].description);
+}
+dimensionName = selectedKey;
+
+2.4 in the dropdown 3 set hierarchy type to table and chart
+
+var selectedType = DD3.getSelectedKey();
+Table_1.getDataSource().setHierarchy(dimensionName, selectedType);
+Chart_2.getDataSource().setHierarchy(dimensionName, selectedType);
+
+3 Compute R Logic
+revenue <- Retail_Store_Demo_Data$`Sales Revenue`
+quantity <- Retail_Store_Demo_Data$`Quantity sold`
+gross <- Retail_Store_Demo_Data$`Gross Margin`
+plot(revenue, quantity)
+corr <- cor(gross,revenue)
+
+Set Text onExecution
+var nCor = this.getEnvironmentValues().getNumber('corr');
+var sCor = nCor.toString();
+text.applyText("Computed " + sCor);
+
+4 Integration with smart discovery
+var aItems = Table_1.getDataSource().getMembers("City");
+for (var i=0;i<aItems.length;i++){
+var sSettings = SmartDiscoveryDimensionSettings.create(Table_1.getDataSource(),"City",[aItems[i]]);	
+}
+SmartDiscoveryMeasureSettings.create(Table_1.getDataSource(),"[Account].[parentId].&[Sales_Revenue]");
+SmartDiscovery.buildStory(sSettings);
+
+5. Copy button planning
+var oPlanning = Table_1.getPlanning();
+var oActual = oPlanning.getPublicVersion("Actual");
+oActual.copy("ironman",PlanningCopyOption.AllData);
+
+6. Changing data using field values
+
+var revenue = inp_revenue.getValue();
+var exp = inp_expense.getValue();
+
+var oPlanning = Table_1.getPlanning();
+oPlanning.setUserInput({
+	"VERSION":"public.Actual",
+	"ACCOUNT": "[ACCOUNT].[parentId].&[H105000]"
+},revenue);
+oPlanning.setUserInput({
+	"VERSION":"public.Actual",
+	"ACCOUNT": "[ACCOUNT].[parentId].&[H134000]"
+},exp);
+oPlanning.submitData();
+
+7. Revert Change
+Table_1.getPlanning().getPublicVersion("Actual").revert();
+
+8. Publish version
+Table_1.getPlanning().getPublicVersion("ironman").publish();
+
+9. Export data
+ExportToPDF_1.exportView();
+
+10. Webpage Integartion
+
+var topic = Dropdown_1.getSelectedKey();
+var type = RadioButtonGroup_1.getSelectedKey();
+var sUrl = "https://www.bing.com/" + type + "/search?q=" + topic;
+WebPage_1.setAddress(sUrl);

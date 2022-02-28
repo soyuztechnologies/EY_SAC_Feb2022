@@ -1,0 +1,194 @@
+//step 1: get the value of selected key from dd
+var anubhav = DD_Measure_Select.getSelectedKey();
+//Step 2: check the value of selected dropdown
+if(anubhav === "Discount"){
+	//change the account dimension for our table to gross and discount
+	Table_1.getDataSource().setDimensionFilter("Account",["[Account].[parentId].&[Discount]","[Account].[parentId].&[Gross_Margin]"]);
+	//add new measure to our chart since we play with measure
+	Chart_2.addMeasure("[Account].[parentId].&[Gross_Margin]",Feed.ValueAxis);
+	Chart_2.addMeasure("[Account].[parentId].&[Discount]",Feed.ValueAxis);
+	RVisualization_1.getInputParameters().setNumber("USERSELECTION", 1);	
+}else{
+	Table_1.getDataSource().setDimensionFilter("Account",["[Account].[parentId].&[Quantity_sold]","[Account].[parentId].&[Sales_Revenue]"]);
+	Chart_2.addMeasure("[Account].[parentId].&[Quantity_sold]",Feed.ValueAxis);
+	Chart_2.addMeasure("[Account].[parentId].&[Sales_Revenue]",Feed.ValueAxis);
+	RVisualization_1.getInputParameters().setNumber("USERSELECTION", 0);
+}
+
+if(DD1_Value === "Revenue"){
+	Chart_2.removeMeasure("[Account].[parentId].&[Quantity_sold]",Feed.ValueAxis);
+	Chart_2.removeMeasure("[Account].[parentId].&[Sales_Revenue]",Feed.ValueAxis);
+}else{
+	Chart_2.removeMeasure("[Account].[parentId].&[Discount]",Feed.ValueAxis);
+	Chart_2.removeMeasure("[Account].[parentId].&[Gross_Margin]",Feed.ValueAxis);
+}
+
+DD1_Value = anubhav;
+
+
+-------------------
+app Initializer
+------------------
+var hierarchies = Table_1.getDataSource().getHierarchies("City");
+console.log(hierarchies);
+DD_HIER.removeAllItems();
+for(var i=0;i<hierarchies.length;i++){
+		DD_HIER.addItem(hierarchies[i].id, hierarchies[i].description);
+}
+DD_HIER.setSelectedKey("@FlatHierarchy");
+RVisualization_1.getInputParameters().setNumber("USERSELECTION", 0);
+
+
+var aItems = ArrayUtils.create(Type.DataContext);
+aItems.push({"id": "India", "description":"Mumbai"});
+aItems.push({"id": "India", "description":"Delhi"});
+aItems.push({"id": "India", "description":"Bangalore"});
+aItems.push({"id": "USA", "description":"Kings County"});
+aItems.push({"id": "USA", "description":"Santa Clara"});
+aItems.push({"id": "USA", "description":"Miami"});
+aItems.push({"id": "USA", "description":"LA"});
+console.log(aItems);
+ARRAY_COUNTRIES = aItems;
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+On dropdown of country
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+var currentCountry = Dropdown_1.getSelectedKey();
+
+Dropdown_2.removeAllItems();
+
+for(var i=0;i<ARRAY_COUNTRIES.length;i++){
+	if(currentCountry === ARRAY_COUNTRIES[i].id){
+		Dropdown_2.addItem(ARRAY_COUNTRIES[i].description);
+	}
+}
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+R Script
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Revenue <- Retail_Store_Demo_Data$`Sales Revenue`
+Qty <- Retail_Store_Demo_Data$`Quantity sold`
+GrossMargin <- Retail_Store_Demo_Data$`Gross Margin`
+Discount <- Retail_Store_Demo_Data$Discount
+if(exists("USERSELECTION")){
+  usersel <- USERSELECTION
+  if(usersel == 0){
+    plot(Revenue, Qty)
+    abline(lm(Revenue ~ Qty))  
+  }else{
+    plot(GrossMargin, Discount)
+    abline(lm(GrossMargin ~ Discount))
+  }
+}else{
+  plot(Revenue, Qty)
+  abline(lm(Revenue ~ Qty))
+ }
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Button Code to Changing R Parameter
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+RVisualization_1.getInputParameters().setNumber("USERSELECTION", 0);
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Smart Discovery Integration
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Enhanced code for Table 1 Row Select
+else if(item === "Category_LBH"){
+	 Table_2.getDataSource().removeDimensionFilter(item) ;
+	 Table_2.getDataSource().setDimensionFilter(item, oSelectedItem[item]);
+  }
+
+Launch Discovery
+
+var ds = Table_2.getDataSource();
+
+var memebers = ds.getMembers("Category_LBH");
+for (var i=0;i<memebers.length;i++){
+	var currentMemeber = memebers[i];
+	var SDSettings = SmartDiscoveryDimensionSettings.create(ds,"Category_LBH",[currentMemeber]);
+	SDSettings.setIncludedDimensions(["YearQuarter"]);
+	SDSettings.setIncludedMeasures(["[Account].[parentId].&[Sales_Revenue]"]);
+	SmartDiscovery.buildStory(SDSettings);
+
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Smart Grouping
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Chart_3.getSmartGrouping().setNumberOfGroups(3);
+Chart_3.getSmartGrouping().setGroupLabel("Anubhav");
+Chart_3.getSmartGrouping().setVisible(true);
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Smart Forecasting
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Chart_4.getForecast().setType(ForecastType.Auto);
+Chart_4.getForecast().setNumberOfPeriods(7);
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Launch a Story
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+NavigationUtils.openStory("8A4A2FCA58BAEB5CF6DECDC5EBE28BC", "cadea915-2983-46c6-b21c-ab6cc9044df7");
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Data Explorer Integration
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+var oDataSource = Chart_1.getDataSource();
+var oDataExplorer = oDataSource.getDataExplorer();
+oDataExplorer.setAdditionalDimensions(["PRODUCT.PRODUCT_H1L2"]);
+oDataExplorer.setAdditionalMeasures(["[ACCOUNT].[parentId].&[H110000]"]);
+oDataExplorer.open();
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Planning function - what if analysis
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+var revenue = InputField_1.getValue();
+var expense = InputField_2.getValue();
+
+var oPlanning = Table_1.getPlanning();
+
+oPlanning.setUserInput({
+	"VERSION":"public.Actual",
+	"ACCOUNT": "[ACCOUNT].[parentId].&[H110000]"
+}, revenue);
+
+oPlanning.setUserInput({
+	"VERSION":"public.Actual",
+	"ACCOUNT": "[ACCOUNT].[parentId].&[H134000]"
+}, expense);
+
+
+oPlanning.submitData();
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Revert Changes
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Table_1.getPlanning().getPublicVersion("Actual").revert();
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Copy a new version and Script object
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+//Table_1.getPlanning().getPublicVersion("Actual").publish();
+var result = MyOwnClass.addNumbers(5,2);
+var versionName = "ANUBHAV_SAD_V_" + result.toString();
+Table_1.getPlanning().getPublicVersion("Actual").copy(versionName, PlanningCopyOption.AllData);
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+PDF Export 
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+ExportToPDF_1.exportView();
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Radio Button Code for Exchange with Web Page
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+var topic = Dropdown_1.getSelectedKey();
+var type = RadioButtonGroup_1.getSelectedKey();
+var sUrl = "https://www.bing.com/" + type + "/search?q=" + topic ;
+WebPage_1.setAddress(sUrl);
+

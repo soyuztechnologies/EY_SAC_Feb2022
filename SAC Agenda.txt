@@ -1,0 +1,201 @@
+Day 1
+
+Introduction to SAP Terminologies and Analytics Cloud
+	- Difference between Cloud and OP systems
+	- Cloud Offerings
+	- Introduction to SAP Cloud Platform
+	- Difference between HANA and S/4HANA
+	- How ERP and BW are used today
+	- What are all other SAP Solutions used in industry
+	- What is SAP Analytics Cloud
+	- History of SAC
+	- SAC Strategy
+
+---Break---
+System Walk Through
+                - SAC Architecture
+	- Compare SAC with others
+	- Embedded Content
+	- References
+	- Guidance on SAC Certification
+	- System Walk over
+	- Create a simple dashboard on Covid-19
+Introduction to BI
+	- Basics of BI and Steps used
+	- Understanding Data types
+	- Dimension v/s Measures
+	- The Account Dimension
+	- Data types in prediction
+	- Introduction to use case
+---Break---
+Demo Scenario – BI Scenario (Ann Jackson) – Hands On
+                    - Create Data model – Type Analytic, Public, Acquired
+	- Create Story
+	- Create Responsive Page
+	- Add Charts – Numeric Point, Bar, Pie
+	- Add Panels with in Responsive page
+	- Input Controls – Measure, Dimension and Input Control
+	- Geo Map
+	- R Visualization
+	- Table Control
+	- Linked Analysis
+
+Day 2
+Hands on- BI Scenario Extension
+	- Add Waterfall chart
+	- Stack Column Chart with Heatmaps
+	- Dynamic page filtering
+	- Table Control and Styling
+	- Measure based dimension 
+	- Filtering data based on dimension
+	- Blending
+	- Concept of Trellis and Chart Scaling
+
+---Break---
+
+Model updates & Advance BI
+                    - Create data model using google drive
+	- Create hierarchies and Basic BI
+	- Update Models using Draft data
+	- Concept of Variance
+	- Create Reference Lines
+	- Conditional Formatting
+Working with Geo maps and Account Dimension
+	- Understanding Exception Aggregation
+	- Working with GEO Maps
+	- Point of interest Layer using Direct file
+	- POI using shape file
+	- POI using data model
+	- Introduction to advance scenario
+
+Day 3
+
+Advance BI Scenario
+                    - Variance Concept
+	- Smart Assist Scenario
+	- Augmented Analytics
+	- Smart Predict Forecast
+	- Smart Insight
+	- Smart Discovery
+	- Smart Grouping
+	- Roadmap and Support 
+Introduction to Planning
+	- What is Planning
+	- Evolution of Planning
+	- Collaborative Planning
+	- SAC Supports Planning options
+	- Planning Jargons
+	- Introduction to Planning models
+
+---Break---
+
+Working with Planning Models
+                    - Create Demo Scenario
+	- Create Planning Model
+	- Version Management
+	- Create Simple Balance Sheet
+	- What if Analysis
+	- Update Scenario
+	
+	
+Day 4
+Advance Planning Scenario – Hands on
+	- Distribution and Spreading
+	- Working with allocations
+	- Allocations on calculated measure
+
+---Break---
+
+Value Driver Trees – Hands on
+                - Create Value Drive Trees
+	- Using VDT in the dashboard
+Collaboration and Calendar
+	
+Day 5
+
+Hands-on Session on advance planning
+Working with Data Actions
+Scripted Data Actions
+HR Headcount Scenario
+
+--break
+
+SAP Digital Boardroom
+	- Creating agenda
+	- Creating free flow
+Introduction to Machine Learning
+Concepts of Independent and Dependent Variable
+Training and Validation process
+
+Day 6
+
+Logistic Regression Example
+Confusion Matrix
+AUC and ROC Curves
+Profit Simulation
+ML Scenario - Classifiction
+
+--break
+
+Concept of Regression
+Determination of MAPE
+Concept of Residuals
+Quanrantile
+Our HR Scenario
+
+Day 7
+
+Implementing the Regression Scenario
+Introductiont to segmented time series
+
+--break
+
+Segmented TimeSeries Scenario Introduction
+Introduction to SAC Designer
+
+Day 8
+
+Build Simple Designer App
+Understand custom scenario and controls
+DropDown
+Introduction to JS Scripting
+Implement Scripting Action
+Button, Dropdown logic for controls
+Change Dimensions and Measure Dynamically
+Replicate filters
+Popup
+Working with Scripting Hierarchies
+Transfer Context
+Integrate Stories
+
+--break
+
+Integrate SAC with Fiori Launchpad
+Integrate Webpage inside SAC
+Integrate SAC inside Fiori App
+
+
+Day 9
+
+Introduction to Connections
+Cloud Connector
+Connecting to Import data with BW
+Connecting to S/4HANA System
+
+--- 
+
+Introduction to CDS View
+Consume S/4HANA CDS views
+Import data connection
+Live Data connection with analytic Query
+
+
+Day 10
+
+Calling Odata using Analytic Designer
+Close loop scenario
+SAP HANA in Cloud connected to SAC
+
+----break
+ 
+QnA and Final test
