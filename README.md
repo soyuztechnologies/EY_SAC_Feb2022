@@ -12,7 +12,7 @@ https://www.anubhavtrainings.com/scp-cloud-platform-training
 https://www.anubhavtrainings.com/ui5-and-odata-training
 
 ![alt text](https://static.wixstatic.com/media/74c3a1_40094714c04f4e1f929543838a3e0a8c~mv2.gif)
-
+         
   
 ## SAP Analytics Cloud Training
  
